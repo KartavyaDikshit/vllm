@@ -19,7 +19,7 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import (
     kNvfp4Static,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     flashinfer_b12x_fused_moe,
     flashinfer_convert_sf_to_mma_layout,
     has_flashinfer_b12x_moe,

@@ -24,7 +24,7 @@ from vllm.utils.deep_gemm import (
     per_block_cast_to_fp8,
     should_use_deepgemm_for_fp8_linear,
 )
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     flashinfer_fp8_blockscale_gemm,
     has_flashinfer_fp8_blockscale_gemm,
 )

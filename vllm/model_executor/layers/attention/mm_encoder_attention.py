@@ -24,7 +24,7 @@ from vllm.model_executor.models.vision import (
     get_multimodal_config,
     get_vit_attn_backend,
 )
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     is_flashinfer_cudnn_fp8_prefill_attn_supported,
 )
 from vllm.utils.math_utils import round_up

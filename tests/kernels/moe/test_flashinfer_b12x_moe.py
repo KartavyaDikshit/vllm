@@ -13,7 +13,7 @@ if not current_platform.is_device_capability_family(120):
         allow_module_level=True,
     )
 
-from vllm.utils.flashinfer import has_flashinfer_b12x_moe
+from vllm.utils.flashinfer_utils import has_flashinfer_b12x_moe
 
 if not has_flashinfer_b12x_moe():
     pytest.skip(
@@ -40,7 +40,7 @@ from vllm.model_executor.layers.fused_moe.config import nvfp4_moe_quant_config
 from vllm.model_executor.layers.fused_moe.experts.flashinfer_b12x_moe import (
     FlashInferB12xExperts,
 )
-from vllm.utils.flashinfer import flashinfer_convert_sf_to_mma_layout
+from vllm.utils.flashinfer_utils import flashinfer_convert_sf_to_mma_layout
 from vllm.utils.torch_utils import set_random_seed
 
 # Dimensions chosen to satisfy FP4 alignment requirements (k multiple of 256,

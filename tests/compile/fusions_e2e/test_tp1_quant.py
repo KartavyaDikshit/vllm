@@ -6,7 +6,7 @@ import pytest
 
 from vllm.config import PassConfig
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import is_flashinfer_fp8_blockscale_gemm_supported
+from vllm.utils.flashinfer_utils import is_flashinfer_fp8_blockscale_gemm_supported
 
 from .common import (
     INDUCTOR_GRAPH_PARTITION,

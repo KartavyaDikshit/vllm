@@ -48,7 +48,7 @@ def _flashinfer_scaled_mm_out(
 ) -> None:
     # Import lazily to avoid a circular import during module initialization
     # when docs or other tooling import the pass without FlashInfer.
-    from vllm.utils.flashinfer import flashinfer_scaled_fp8_mm_out
+    from vllm.utils.flashinfer_utils import flashinfer_scaled_fp8_mm_out
 
     assert bias is None, "FlashInfer symm_mem adapter does not support bias"
     assert scale_result is None, (
@@ -86,7 +86,7 @@ def _flashinfer_fp4_mm_out(
     use_8x4_sf_layout: bool = False,
     backend: str = "cutlass",
 ) -> None:
-    from vllm.utils.flashinfer import flashinfer_scaled_fp4_mm_out
+    from vllm.utils.flashinfer_utils import flashinfer_scaled_fp4_mm_out
 
     assert A.ndim == 2 and B.ndim == 2 and out.ndim == 2, (
         "FlashInfer FP4 symm_mem adapter expects 2D inputs and output"
@@ -925,7 +925,7 @@ class AsyncTPPass(VllmFusionPatternMatcherPass):
                     self.pm_pass
                 )
             with suppress(ImportError):
-                import vllm.utils.flashinfer  # noqa: F401
+                import vllm.utils.flashinfer_utils  # noqa: F401
             if hasattr(torch.ops.vllm, "bmm_fp8"):
                 self.register(
                     FlashInferAllGatherBMMFP8Pattern(self.model_dtype, self.device)

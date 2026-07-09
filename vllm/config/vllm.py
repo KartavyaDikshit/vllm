@@ -131,7 +131,7 @@ def enable_act_fusion(cfg: "VllmConfig") -> bool:
 def enable_allreduce_rms_fusion(cfg: "VllmConfig") -> bool:
     """Enable if TP > 1 and Hopper/Blackwell and flashinfer installed."""
     from vllm.platforms import current_platform
-    from vllm.utils.flashinfer import has_flashinfer
+    from vllm.utils.flashinfer_utils import has_flashinfer
 
     if current_platform.is_rocm():
         from vllm._aiter_ops import rocm_aiter_ops

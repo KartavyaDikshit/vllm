@@ -103,7 +103,7 @@ def run_e2e_fusion_test(monkeypatch, caplog_mp_spawn):
             )
 
         if attn_backend.backend.name == "FLASHINFER":
-            from vllm.utils.flashinfer import supports_trtllm_attention
+            from vllm.utils.flashinfer_utils import supports_trtllm_attention
 
             if not supports_trtllm_attention():
                 matches = matches._replace(attn_quant_fusion=0)

@@ -14,7 +14,7 @@ from vllm.model_executor.layers.attention.mm_encoder_attention import (
     _FP8_AMAX_HISTORY_LEN,
     _FP8_MAX,
 )
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     is_flashinfer_cudnn_fp8_prefill_attn_supported,
 )
 

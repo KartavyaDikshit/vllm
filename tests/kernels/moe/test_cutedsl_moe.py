@@ -20,10 +20,10 @@ from vllm.model_executor.layers.activation import SiluAndMul
 from vllm.model_executor.layers.fused_moe.experts.flashinfer_cutedsl_batched_moe import (  # noqa: E501
     flashinfer_cutedsl_moe_masked,
 )
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     flashinfer_cutedsl_grouped_gemm_nt_masked as cutedsl_gmm_masked,
 )
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     scaled_fp4_grouped_quantize,
 )
 

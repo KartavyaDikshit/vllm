@@ -16,7 +16,7 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import (
     kFp8StaticTensorSym,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     flashinfer_fp8_blockscale_gemm,
     flashinfer_scaled_fp8_mm,
     has_flashinfer,

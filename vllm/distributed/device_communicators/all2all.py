@@ -12,7 +12,7 @@ from vllm.distributed import get_dp_group, get_ep_group
 from vllm.distributed.utils import StatelessProcessGroup
 from vllm.forward_context import get_forward_context
 from vllm.logger import init_logger
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     has_flashinfer_nvlink_one_sided,
     has_flashinfer_nvlink_two_sided,
 )

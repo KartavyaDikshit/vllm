@@ -11,7 +11,7 @@ from nvfp4_utils import (
 
 from vllm import _custom_ops as ops
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     flashinfer_scaled_fp4_mm,
     has_flashinfer_b12x_gemm,
 )

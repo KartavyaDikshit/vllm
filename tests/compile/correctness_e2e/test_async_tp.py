@@ -14,7 +14,7 @@ from vllm.config import (
     CompilationMode,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 
 NVFP4_MODEL_ID = "nvidia/Llama-3.1-8B-Instruct-NVFP4"
 NVFP4_HF_OVERRIDES = {

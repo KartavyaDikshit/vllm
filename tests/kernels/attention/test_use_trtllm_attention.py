@@ -7,7 +7,7 @@ import pytest
 import torch
 
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     can_use_trtllm_attention,
     supports_trtllm_attention,
     use_trtllm_attention,
@@ -69,17 +69,17 @@ def test_supports_batch_invariant_disables():
 
 @patch("vllm.envs.VLLM_BATCH_INVARIANT", False)
 @patch(
-    "vllm.utils.flashinfer.current_platform.is_device_capability_family",
+    "vllm.utils.flashinfer_utils.current_platform.is_device_capability_family",
     return_value=True,
 )
-@patch("vllm.utils.flashinfer.has_nvidia_artifactory", return_value=True)
+@patch("vllm.utils.flashinfer_utils.has_nvidia_artifactory", return_value=True)
 def test_supports_sm100_with_artifactory(_art, _cap):
     assert supports_trtllm_attention() is True
 
 
 @patch("vllm.envs.VLLM_BATCH_INVARIANT", False)
 @patch(
-    "vllm.utils.flashinfer.current_platform.is_device_capability_family",
+    "vllm.utils.flashinfer_utils.current_platform.is_device_capability_family",
     return_value=False,
 )
 def test_supports_non_sm100_platform(_cap):
@@ -88,10 +88,10 @@ def test_supports_non_sm100_platform(_cap):
 
 @patch("vllm.envs.VLLM_BATCH_INVARIANT", False)
 @patch(
-    "vllm.utils.flashinfer.current_platform.is_device_capability_family",
+    "vllm.utils.flashinfer_utils.current_platform.is_device_capability_family",
     return_value=True,
 )
-@patch("vllm.utils.flashinfer.has_nvidia_artifactory", return_value=False)
+@patch("vllm.utils.flashinfer_utils.has_nvidia_artifactory", return_value=False)
 def test_supports_sm100_without_artifactory(_art, _cap):
     assert supports_trtllm_attention() is False
 
@@ -99,28 +99,28 @@ def test_supports_sm100_without_artifactory(_art, _cap):
 # can_use_trtllm_attention
 
 
-@patch("vllm.utils.flashinfer.force_use_trtllm_attention", return_value=False)
+@patch("vllm.utils.flashinfer_utils.force_use_trtllm_attention", return_value=False)
 def test_can_use_force_disabled(_mock):
     cfg = get_config("Llama-3-70B")
     assert can_use_trtllm_attention(cfg["num_qo_heads"], cfg["num_kv_heads"]) is False
 
 
-@patch("vllm.utils.flashinfer.force_use_trtllm_attention", return_value=None)
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.force_use_trtllm_attention", return_value=None)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_can_use_compatible_heads(_sup, _force):
     cfg = get_config("Llama-3-70B")
     assert can_use_trtllm_attention(cfg["num_qo_heads"], cfg["num_kv_heads"]) is True
 
 
-@patch("vllm.utils.flashinfer.force_use_trtllm_attention", return_value=None)
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.force_use_trtllm_attention", return_value=None)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_can_use_incompatible_heads(_sup, _force):
     assert can_use_trtllm_attention(40, 6) is False
 
 
 @pytest.mark.parametrize("model", list(MODEL_CONFIGS.keys()))
-@patch("vllm.utils.flashinfer.force_use_trtllm_attention", return_value=None)
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=False)
+@patch("vllm.utils.flashinfer_utils.force_use_trtllm_attention", return_value=None)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=False)
 def test_can_use_platform_unsupported(_sup, _force, model):
     cfg = get_config(model)
     assert can_use_trtllm_attention(cfg["num_qo_heads"], cfg["num_kv_heads"]) is False
@@ -129,75 +129,75 @@ def test_can_use_platform_unsupported(_sup, _force, model):
 # use_trtllm_attention
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_force_off(_mock):
     assert _call(force_use_trtllm=False) is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_dcp_fallback(_mock):
     assert _call(dcp_world_size=2) is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=False)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=False)
 def test_use_platform_unsupported(_mock):
     assert _call() is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=False)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=False)
 def test_use_platform_unsupported_force_on_still_false(_mock):
     assert _call(force_use_trtllm=True) is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_incompatible_heads(_mock):
     assert _call(num_qo_heads=40, num_kv_heads=6) is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_incompatible_heads_force_on_still_false(_mock):
     assert _call(num_qo_heads=40, num_kv_heads=6, force_use_trtllm=True) is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_spec_decode_enables(_mock):
     assert _call(has_spec=True, is_prefill=False) is True
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 @patch(
-    "vllm.utils.flashinfer.current_platform.fp8_dtype",
+    "vllm.utils.flashinfer_utils.current_platform.fp8_dtype",
     return_value=torch.float8_e4m3fn,
 )
 def test_use_fp8_query_forces_trtllm(_fp8, _sup):
     assert _call(q_dtype=torch.float8_e4m3fn) is True
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_sinks_force_trtllm(_mock):
     assert _call(has_sinks=True) is True
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_auto_prefill_kv_auto(_mock):
     assert _call(is_prefill=True, kv_cache_dtype="auto") is True
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_auto_prefill_kv_fp8(_mock):
     assert _call(is_prefill=True, kv_cache_dtype="fp8") is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_auto_decode_small_batch(_mock):
     assert _call(is_prefill=False, num_tokens=128, kv_cache_dtype="auto") is True
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_auto_decode_large_batch(_mock):
     assert _call(is_prefill=False, num_tokens=512, kv_cache_dtype="auto") is False
 
 
-@patch("vllm.utils.flashinfer.supports_trtllm_attention", return_value=True)
+@patch("vllm.utils.flashinfer_utils.supports_trtllm_attention", return_value=True)
 def test_use_force_on(_mock):
     assert _call(force_use_trtllm=True) is True

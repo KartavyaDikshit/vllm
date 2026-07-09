@@ -8,7 +8,7 @@ from vllm.model_executor.layers.fused_moe.experts.cutlass_moe import (
     swizzle_mxfp4_scales,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer_cutedsl
+from vllm.utils.flashinfer_utils import has_flashinfer_cutedsl
 
 from .base import MxFp4LinearKernel, MxFp4LinearLayerConfig
 
@@ -47,7 +47,7 @@ class FlashInferMxFp4LinearKernel(MxFp4LinearKernel):
         x: torch.Tensor,
         bias: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        from vllm.utils.flashinfer import (
+        from vllm.utils.flashinfer_utils import (
             flashinfer_mxfp4_quantize,
             flashinfer_scaled_fp4_mm,
         )

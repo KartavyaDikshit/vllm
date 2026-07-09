@@ -4,7 +4,7 @@ import pytest
 
 from vllm._aiter_ops import is_aiter_found_and_supported
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 from vllm.v1.attention.backends.registry import AttentionBackendEnum
 
 from .common import AttentionBackendCase, Matches, ModelFusionInfo, is_blackwell

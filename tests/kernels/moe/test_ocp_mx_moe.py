@@ -10,7 +10,7 @@ import torch
 from packaging import version
 
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 
 QUARK_MXFP4_AVAILABLE = find_spec("quark") is not None and version.parse(
     importlib.metadata.version("amd-quark")
@@ -778,7 +778,7 @@ def test_flashinfer_cutlass_mxfp4_fused_moe(
         use_interleaved_layout=False,
     )
 
-    from vllm.utils.flashinfer import flashinfer_cutlass_fused_moe
+    from vllm.utils.flashinfer_utils import flashinfer_cutlass_fused_moe
 
     # Swap halves to arrange as [w3; w1] (kernel expectation)
     w1_w, w3_w = torch.chunk(w13_q, 2, dim=1)
@@ -966,7 +966,7 @@ def test_flashinfer_cutlass_mxfp4_mxfp8_fused_moe(
     )
 
     # Prepare inputs for FlashInfer CUTLASS fused MoE
-    from vllm.utils.flashinfer import flashinfer_cutlass_fused_moe
+    from vllm.utils.flashinfer_utils import flashinfer_cutlass_fused_moe
 
     # Swap halves to arrange as [w3; w1] (kernel expectation)
     w1_w, w3_w = torch.chunk(w13_q, 2, dim=1)

@@ -29,7 +29,7 @@ skipif_not_cuda_rocm = pytest.mark.skipif(
     ],
 )
 @patch(
-    "vllm.utils.flashinfer.has_flashinfer",
+    "vllm.utils.flashinfer_utils.has_flashinfer",
     return_value=False,
 )
 @patch(
@@ -85,7 +85,7 @@ def test_select_default_backend_by_platform(
 
 
 @patch(
-    "vllm.utils.flashinfer.has_flashinfer",
+    "vllm.utils.flashinfer_utils.has_flashinfer",
     return_value=False,
 )
 @patch(
@@ -149,7 +149,7 @@ def test_select_cuda_flashinfer_trtllm_backend(mock_is_supported_trtllm):
 
 
 @patch(
-    "vllm.utils.flashinfer.has_flashinfer",
+    "vllm.utils.flashinfer_utils.has_flashinfer",
     return_value=True,
 )
 @patch(

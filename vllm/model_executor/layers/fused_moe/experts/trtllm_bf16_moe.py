@@ -11,14 +11,14 @@ from vllm.model_executor.layers.fused_moe.config import (
     FusedMoEQuantConfig,
     RoutingMethodType,
 )
-from vllm.model_executor.layers.quantization.utils.flashinfer_utils import (
+from vllm.utils.flashinfer_utils import (
     activation_to_flashinfer_int,
 )
 from vllm.model_executor.layers.quantization.utils.quant_utils import (
     QuantKey,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer_trtllm_fused_moe
+from vllm.utils.flashinfer_utils import has_flashinfer_trtllm_fused_moe
 
 
 class TrtLlmBf16Experts(mk.FusedMoEExpertsMonolithic):
