@@ -147,13 +147,16 @@ def get_memory_node_info(node_id: int = 0) -> MemoryNodeInfo:
             meminfo[key] = value
 
     total_memory = meminfo["MemTotal"]
-    free_memory = meminfo["MemFree"]
-    active_file_memory = meminfo["Active(file)"]
-    inactive_file_memory = meminfo["Inactive(file)"]
-    reclaimable_memory = meminfo["SReclaimable"]
-    available_memory = (
-        free_memory + active_file_memory + inactive_file_memory + reclaimable_memory
-    )
+    if "MemAvailable" in meminfo:
+        available_memory = meminfo["MemAvailable"]
+    else:
+        free_memory = meminfo["MemFree"]
+        active_file_memory = meminfo.get("Active(file)", 0)
+        inactive_file_memory = meminfo.get("Inactive(file)", 0)
+        reclaimable_memory = meminfo.get("SReclaimable", 0)
+        available_memory = (
+            free_memory + active_file_memory + inactive_file_memory + reclaimable_memory
+        )
 
     # Honor cgroup memory limit (containers / k8s pods). NUMA meminfo
     # reflects host-wide numbers; without this, gpu_memory_utilization

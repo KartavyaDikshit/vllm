@@ -639,7 +639,11 @@ class CudaPlatformBase(Platform):
 
     @classmethod
     def is_integrated_gpu(cls, device_id: int = 0) -> bool:
-        return bool(torch.cuda.get_device_properties(device_id).is_integrated)
+        prop = torch.cuda.get_device_properties(device_id)
+        if bool(prop.is_integrated):
+            return True
+        name = prop.name.lower()
+        return any(uma in name for uma in ["gh200", "grace", "gb200", "gb10"])
 
     @classmethod
     def num_compute_units(cls, device_id: int = 0) -> int:
