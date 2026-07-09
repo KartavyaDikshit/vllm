@@ -868,6 +868,18 @@ class VllmConfig:
 
             self.parallel_config.is_moe_model = self.model_config.is_moe
 
+            if (self.parallel_config.enable_eplb 
+                and self.parallel_config.eplb_config.num_redundant_experts is None):
+                if self.model_config.is_moe:
+                    ep_size = (self.parallel_config.tensor_parallel_size * 
+                               self.parallel_config.data_parallel_size)
+                    num_experts = self.model_config.get_num_experts()
+                    self.parallel_config.eplb_config.num_redundant_experts = (
+                        (ep_size - (num_experts % ep_size)) % ep_size
+                    )
+                else:
+                    self.parallel_config.eplb_config.num_redundant_experts = 0
+
         if (
             self.model_config is not None
             and self.model_config.enable_return_routed_experts
