@@ -468,8 +468,7 @@ class Llama4Model(LlamaModel):
 
             # Skip if the current weight corresponds to a parameter that
             # does not exist on the current PP (pipeline parallel) rank.
-            if is_pp_missing_parameter(name, self):
-                continue
+            # (Checked at the top of the loop in load_weights)
 
             # Skip if the current weight is for the bias.
             if (
@@ -579,6 +578,9 @@ class Llama4Model(LlamaModel):
 
         # Iterate over all the weights and load them into module parameters.
         for name, loaded_weight in weights:
+            if is_pp_missing_parameter(name, self):
+                continue
+
             # If the name contains "experts.gate_up_proj" or "experts.down_proj"
             # without the expert indices, it means the expert weights are fused
             # into a single weight tensor across all experts.
@@ -605,8 +607,7 @@ class Llama4Model(LlamaModel):
 
                 # Skip if the current weight corresponds to a parameter that
                 # does not exist on the current PP (pipeline parallel) rank.
-                if is_pp_missing_parameter(name, self):
-                    continue
+                # (Checked at the top of the loop)
 
                 # Remap kv cache scale names for any checkpoint format the
                 # quant config's `get_cache_scale_mapper` does not cover
@@ -645,8 +646,7 @@ class Llama4Model(LlamaModel):
 
                 # Skip if the current weight corresponds to a parameter that
                 # does not exist on the current PP (pipeline parallel) rank.
-                if is_pp_missing_parameter(name, self):
-                    continue
+                # (Checked at the top of the loop)
 
                 # Handle flat expert scale parameters that don't match
                 # per-expert patterns, i.e. one weight scale tensor for all
