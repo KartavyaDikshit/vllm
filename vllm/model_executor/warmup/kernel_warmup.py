@@ -18,7 +18,7 @@ from vllm.logger import init_logger
 from vllm.model_executor.warmup.deep_gemm_warmup import deep_gemm_warmup
 from vllm.platforms import current_platform
 from vllm.utils.deep_gemm import is_deep_gemm_supported
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 
 if TYPE_CHECKING:
     from vllm.v1.worker.gpu_model_runner import GPUModelRunner
@@ -131,7 +131,7 @@ def flashinfer_autotune(runner: "GPUModelRunner") -> None:
     Tuning is performed only on rank 0. The resulting cache is broadcast
     to every rank so all ranks dispatch the same kernel tactic.
     """
-    import vllm.utils.flashinfer as fi_utils
+    import vllm.utils.flashinfer_utils as fi_utils
     from vllm.distributed.parallel_state import get_world_group
 
     if not _FLASHINFER_USE_PERSISTENT_CACHE:

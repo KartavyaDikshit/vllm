@@ -33,7 +33,7 @@ from vllm.model_executor.layers.quantization.utils.w8a8_utils import (
 )
 from vllm.platforms import current_platform
 from vllm.utils.deep_gemm import is_deep_gemm_supported
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     has_flashinfer_cutlass_fused_moe,
     has_flashinfer_nvlink_one_sided,
     has_flashinfer_trtllm_fused_moe,

@@ -36,7 +36,7 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import (
 from vllm.platforms import current_platform
 from vllm.platforms.interface import DeviceCapability
 from vllm.triton_utils import tl, triton
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     can_use_trtllm_attention,
     use_trtllm_attention,
 )
@@ -427,7 +427,7 @@ class FlashInferBackend(AttentionBackend):
     @classmethod
     def supports_sink(cls) -> bool:
         """FlashInfer supports sinks when TRTLLM attention is available (SM100)."""
-        from vllm.utils.flashinfer import (
+        from vllm.utils.flashinfer_utils import (
             force_use_trtllm_attention,
             supports_trtllm_attention,
         )

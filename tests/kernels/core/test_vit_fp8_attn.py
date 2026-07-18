@@ -8,7 +8,7 @@ import pytest
 import torch
 
 from vllm.triton_utils import HAS_TRITON
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     is_flashinfer_cudnn_fp8_prefill_attn_supported,
 )
 from vllm.v1.attention.backends.registry import AttentionBackendEnum

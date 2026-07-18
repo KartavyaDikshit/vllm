@@ -36,7 +36,7 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import (
     kNvfp4Dynamic,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 from vllm.v1.attention.backend import AttentionMetadata
 from vllm.v1.attention.backends.registry import AttentionBackendEnum
 from vllm.v1.kv_cache_interface import AttentionSpec, get_kv_quant_mode

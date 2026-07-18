@@ -9,7 +9,7 @@ import torch
 import vllm.envs as envs
 from vllm.logger import init_logger
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer_trtllm_fused_moe
+from vllm.utils.flashinfer_utils import has_flashinfer_trtllm_fused_moe
 
 __all__ = [
     "prepare_static_weights_for_trtllm_mxint4_moe",

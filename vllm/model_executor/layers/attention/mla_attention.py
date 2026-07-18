@@ -240,7 +240,7 @@ from vllm.model_executor.layers.quantization.utils.quant_utils import (
     kNvfp4Dynamic,
 )
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer
+from vllm.utils.flashinfer_utils import has_flashinfer
 from vllm.utils.math_utils import cdiv, round_down
 from vllm.utils.torch_utils import (
     LayerNameType,

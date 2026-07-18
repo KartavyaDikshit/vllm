@@ -25,7 +25,7 @@ from vllm.model_executor.layers.fused_moe.experts.trtllm_fp8_moe import (
     TrtLlmFp8ExpertsMonolithic,
 )
 from vllm.model_executor.layers.fused_moe.fused_moe import fused_experts
-from vllm.model_executor.layers.quantization.utils.flashinfer_utils import (
+from vllm.utils.flashinfer_utils import (
     rotate_weights_for_fi_trtllm_fp8_per_tensor_moe,
     swap_w13_to_w31,
 )
@@ -36,7 +36,7 @@ from vllm.utils.math_utils import next_power_of_2
 from vllm.utils.torch_utils import set_random_seed
 
 try:
-    from vllm.utils.flashinfer import has_flashinfer_cutlass_fused_moe
+    from vllm.utils.flashinfer_utils import has_flashinfer_cutlass_fused_moe
 except ImportError:
     if current_platform.is_rocm():
         pytest.skip(
@@ -393,7 +393,7 @@ def test_flashinfer_cutlass_moe_fp8_no_graph(
 def test_convert_moe_weights_to_flashinfer_trtllm_block_layout(
     num_experts, intermediate, hidden
 ):
-    from vllm.model_executor.layers.quantization.utils.flashinfer_utils import (
+    from vllm.utils.flashinfer_utils import (
         convert_moe_weights_to_flashinfer_trtllm_block_layout,
     )
 

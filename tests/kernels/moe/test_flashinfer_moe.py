@@ -28,7 +28,7 @@ from vllm.model_executor.layers.fused_moe.experts.flashinfer_cutlass_moe import 
 )
 from vllm.model_executor.layers.fused_moe.modular_kernel import FusedMoEKernel
 from vllm.platforms import current_platform
-from vllm.utils.flashinfer import has_flashinfer_cutlass_fused_moe
+from vllm.utils.flashinfer_utils import has_flashinfer_cutlass_fused_moe
 from vllm.utils.math_utils import next_power_of_2
 from vllm.utils.torch_utils import set_random_seed
 

@@ -15,7 +15,7 @@ import torch
 import torch.multiprocessing as mp
 
 from vllm.distributed import get_ep_group
-from vllm.utils.flashinfer import (
+from vllm.utils.flashinfer_utils import (
     has_flashinfer_nvlink_one_sided,
     has_flashinfer_nvlink_two_sided,
 )

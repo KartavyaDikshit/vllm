@@ -410,7 +410,7 @@ def _run_trtllm_integration(batch_spec, kv_cache_dtype="auto", model_name=MODEL)
         with (
             set_current_vllm_config(vllm_config),
             unittest.mock.patch(
-                "vllm.utils.flashinfer.supports_trtllm_attention",
+                "vllm.utils.flashinfer_utils.supports_trtllm_attention",
                 return_value=True,
             ),
             unittest.mock.patch(
